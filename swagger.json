@@ -1,0 +1,1779 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "Nex Backend",
+    "description": "TODO: Add Description",
+    "contact": {}
+  },
+  "host": "localhost:3000",
+  "basePath": "/connectIn/api/v1",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "tags": [
+    {
+      "name": "User",
+      "description": "Operations about User Managment"
+    },
+    {
+      "name": "University Managment",
+      "description": "Operations about University Managment"
+    },
+    {
+      "name": "GROUP MANAGMENT",
+      "description": "Operations about GROUP Managment"
+    },
+    {
+      "name": "FEED MANAGMENT",
+      "description": "Operations about FEED Managment"
+    }
+  ],
+  "paths": {
+    "/signup": {
+      "post": {
+        "summary": "Sign up",
+        "tags": [
+          "User"
+        ],
+        "operationId": "SignupPost",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/definitions/User"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/signin": {
+      "post": {
+        "summary": "Sign in",
+        "tags": [
+          "User"
+        ],
+        "operationId": "SigninPost",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/SigninRequest"
+            }
+          },
+          {
+            "name": "os",
+            "in": "header",
+            "description": "operating system of user",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "version",
+            "in": "header",
+            "description": "operating system of user",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/SigninResponse"
+            },
+            "examples": {
+              "application/json": {
+                "status": false,
+                "message": "Email not registered",
+                "errors": [
+                  {
+                    "message": "No data exists in the database."
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "access-control-allow-origin": {
+                "type": "string",
+                "default": "*"
+              },
+              "connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "content-length": {
+                "type": "string",
+                "default": 106
+              },
+              "content-type": {
+                "type": "string",
+                "default": "application/json; charset=utf-8"
+              },
+              "date": {
+                "type": "string",
+                "default": "Mon, 16 Jul 2018 19:34:29 GMT"
+              },
+              "etag": {
+                "type": "string",
+                "default": "W/\"6a-PYAVZ5UwwWNOnwfCvbNh/K73kEw\""
+              },
+              "x-powered-by": {
+                "type": "string",
+                "default": "Express"
+              }
+            }
+          },
+          "422": {
+            "description": "The request was well-formed but was unable to be followed due to semantic errors.",
+            "schema": {
+              "$ref": "#/definitions/SigninResponse"
+            },
+            "examples": {
+              "application/json": {
+                "status": false,
+                "message": "Password doesn’t match.",
+                "errors": [
+                  {
+                    "message": "Password doesn’t match."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getProfile": {
+      "get": {
+        "summary": "Get Profile",
+        "tags": [
+          "User"
+        ],
+        "operationId": "GetProfileGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "session",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/definitions/User"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/updateProfile": {
+      "post": {
+        "summary": "Update Profile",
+        "tags": [
+          "User"
+        ],
+        "operationId": "UpdateProfilePost",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "first_name",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "last_name",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "required": true,
+            "type": "file",
+            "format": "file",
+            "description": ""
+          },
+          {
+            "name": "session",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UpdateProfileResponse"
+            },
+            "examples": {
+              "application/json": {
+                "status": true,
+                "message": "Operation successfully performed!",
+                "responce": {
+                  "id": 3,
+                  "email": "naeem@gmail.com",
+                  "password": "$2b$10$R1ARiuobxmLAVAFDEiee3ubl1Rhuteh6cLarFsKmmk2rJ0Tz5apQu",
+                  "full_name": "M. Naeem",
+                  "session_id": "Eovpb1HOhg8h3BsOkkDrjih254AQzKUw",
+                  "created_at": "2018-07-16T18:50:30.494Z",
+                  "login_type": null,
+                  "first_name": "ghazanafar",
+                  "last_name": "ali",
+                  "image_path": null,
+                  "social_id": null,
+                  "social_provider_name": null,
+                  "job_title": null,
+                  "about": null,
+                  "interests": null,
+                  "school": null,
+                  "worked_at": null,
+                  "lives_in": null,
+                  "contact_number": null,
+                  "facebook_profile": null,
+                  "linkedin_profile": null,
+                  "website": null,
+                  "headline": null,
+                  "google_profile": null,
+                  "resetpasswordtoken": null,
+                  "last_reset_password_request_date": null,
+                  "resetpassexpire": null,
+                  "device_token": null,
+                  "device_type": null,
+                  "tagline": null,
+                  "works_at": null,
+                  "profile_images": null,
+                  "register_type": "PERSONAL",
+                  "is_deleted": false,
+                  "deleted_at": null,
+                  "terms_accepted": null,
+                  "createdAt": "2018-07-16T18:50:30.486Z",
+                  "updatedAt": "2018-07-16T20:05:44.206Z"
+                }
+              }
+            },
+            "headers": {
+              "access-control-allow-origin": {
+                "type": "string",
+                "default": "*"
+              },
+              "connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "content-length": {
+                "type": "string",
+                "default": 979
+              },
+              "content-type": {
+                "type": "string",
+                "default": "application/json; charset=utf-8"
+              },
+              "date": {
+                "type": "string",
+                "default": "Mon, 16 Jul 2018 20:05:44 GMT"
+              },
+              "etag": {
+                "type": "string",
+                "default": "W/\"3d3-+78eNl3+NahRHW/aYECJZquzfUU\""
+              },
+              "x-powered-by": {
+                "type": "string",
+                "default": "Express"
+              }
+            }
+          },
+          "403": {
+            "description": "The request was a legal request, but the server is refusing to respond to it. Unlike a 401 Unauthorized response, authenticating will make no difference.",
+            "schema": {
+              "$ref": "#/definitions/SigninResponse"
+            },
+            "examples": {
+              "application/json": {
+                "status": false,
+                "message": "you are not authenticated for this action",
+                "errors": [
+                  {
+                    "message": "you are not authenticated for this action"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/delete_user": {
+      "delete": {
+        "summary": "Delete User",
+        "tags": [
+          "User"
+        ],
+        "operationId": "DeleteUserDelete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "session",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/DeleteUserResponse"
+            },
+            "examples": {
+              "application/json": {
+                "status": true,
+                "message": "Operation successfully performed!",
+                "responce": {}
+              }
+            },
+            "headers": {
+              "access-control-allow-origin": {
+                "type": "string",
+                "default": "*"
+              },
+              "connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "content-length": {
+                "type": "string",
+                "default": 75
+              },
+              "content-type": {
+                "type": "string",
+                "default": "application/json; charset=utf-8"
+              },
+              "date": {
+                "type": "string",
+                "default": "Mon, 16 Jul 2018 20:16:30 GMT"
+              },
+              "etag": {
+                "type": "string",
+                "default": "W/\"4b-H4bLP+iDk+L+uH6I0pcOymU402w\""
+              },
+              "x-powered-by": {
+                "type": "string",
+                "default": "Express"
+              }
+            }
+          },
+          "403": {
+            "description": "The request was a legal request, but the server is refusing to respond to it. Unlike a 401 Unauthorized response, authenticating will make no difference.",
+            "schema": {
+              "$ref": "#/definitions/DeleteUserErrorResponse"
+            },
+            "examples": {
+              "application/json": {
+                "status": false,
+                "message": "please provide session id",
+                "errors": []
+              }
+            }
+          }
+        }
+      }
+    },
+    "/send_forget_link": {
+      "post": {
+        "summary": "Send forget link",
+        "tags": [
+          "User"
+        ],
+        "operationId": "SendForgetLinkPost",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/SendforgetlinkRequest"
+            }
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "session",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/SendforgetlinkResponse"
+            },
+            "examples": {
+              "application/json": {
+                "status": true,
+                "message": "Email sent successfully, please login to update password."
+              }
+            },
+            "headers": {
+              "access-control-allow-origin": {
+                "type": "string",
+                "default": "*"
+              },
+              "connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "content-length": {
+                "type": "string",
+                "default": 713
+              },
+              "content-type": {
+                "type": "string",
+                "default": "application/json; charset=utf-8"
+              },
+              "date": {
+                "type": "string",
+                "default": "Mon, 16 Jul 2018 20:22:51 GMT"
+              },
+              "etag": {
+                "type": "string",
+                "default": "W/\"2c9-AO+rDQyzuO4PA9KKPY0pSHy631o\""
+              },
+              "x-powered-by": {
+                "type": "string",
+                "default": "Express"
+              }
+            }
+          },
+          "422": {
+            "description": "The request was well-formed but was unable to be followed due to semantic errors.",
+            "schema": {
+              "$ref": "#/definitions/SigninResponse"
+            },
+            "examples": {
+              "application/json": {
+                "status": false,
+                "message": "Invalid credientials",
+                "errors": [
+                  {
+                    "message": "Invalid credientials"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/university": {
+      "get": {
+        "tags": [
+          "University Managment"
+        ],
+        "summary": "Get List of Universities.",
+        "description": "Used to get a listing of universities.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "pageNum",
+            "in": "query",
+            "description": "Page number to fetch.",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Page size to fetch.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation, a JSON array of user",
+            "schema": {
+              "properties": {
+                "statusCode": {
+                  "type": "integer"
+                },
+                "metadata": {
+                  "$ref": "#/definitions/PageMetaData"
+                },
+                "listings": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/University"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Sign up",
+        "tags": [
+          "University Managment"
+        ],
+        "operationId": "universityPost",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/University"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/definitions/University"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/university/{university_id}": {
+      "get": {
+        "tags": [
+          "University Managment"
+        ],
+        "summary": "Get a specific university",
+        "description": "Used to get a specific university",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "university_id",
+            "in": "path",
+            "description": "id- of university to get.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/definitions/University"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "University Managment"
+        ],
+        "summary": "Used to update university.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "university_id",
+            "in": "path",
+            "description": "University id of university to update.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/University"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "properties": {
+                "statusCode": {
+                  "type": "integer"
+                },
+                "user_id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "University Managment"
+        ],
+        "summary": "Used to delete a specific university.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "university_id",
+            "in": "path",
+            "description": "User-Id of university to delete.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "properties": {
+                "statusCode": {
+                  "type": "integer"
+                },
+                "user_id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/group": {
+      "get": {
+        "tags": [
+          "GROUP MANAGMENT"
+        ],
+        "summary": "Get List of Groups.",
+        "description": "Used to get a listing of Groups.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "pageNum",
+            "in": "query",
+            "description": "Page number to fetch.",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Page size to fetch.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation, a JSON array of user",
+            "schema": {
+              "properties": {
+                "statusCode": {
+                  "type": "integer"
+                },
+                "metadata": {
+                  "$ref": "#/definitions/PageMetaData"
+                },
+                "listings": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Group"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Sign up",
+        "tags": [
+          "GROUP MANAGMENT"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Group"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/definitions/Group"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/group/{group_id}": {
+      "get": {
+        "tags": [
+          "GROUP MANAGMENT"
+        ],
+        "summary": "Get a specific university",
+        "description": "Used to get a specific university",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "group_id",
+            "in": "path",
+            "description": "id- of group to get.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/definitions/Group"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "GROUP MANAGMENT"
+        ],
+        "summary": "Used to update university.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "group_id",
+            "in": "path",
+            "description": "group id to update group",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Group"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/definitions/Group"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "GROUP MANAGMENT"
+        ],
+        "summary": "Used to delete a specific group.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "group_id",
+            "in": "path",
+            "description": "Group-Id  to delete.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "properties": {
+                "statusCode": {
+                  "type": "integer"
+                },
+                "user_id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post": {
+      "get": {
+        "tags": [
+          "FEED MANAGMENT"
+        ],
+        "summary": "Get List of Posts.",
+        "description": "Used to get a listing of Posts.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "pageNum",
+            "in": "query",
+            "description": "Page number to fetch.",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Page size to fetch.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation, a JSON array of user",
+            "schema": {
+              "properties": {
+                "statusCode": {
+                  "type": "integer"
+                },
+                "metadata": {
+                  "$ref": "#/definitions/PageMetaData"
+                },
+                "listings": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Post"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create New Post",
+        "tags": [
+          "FEED MANAGMENT"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number"
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/definitions/Post"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Error": {
+      "title": "Error",
+      "type": "object",
+      "properties": {
+        "message": {
+          "example": "Email already exists!",
+          "type": "string"
+        }
+      },
+      "required": [
+        "message"
+      ]
+    },
+    "PageMetaData": {
+      "type": "object",
+      "properties": {
+        "totalPages": {
+          "type": "number"
+        },
+        "totalResults": {
+          "type": "number"
+        },
+        "currentPage": {
+          "type": "number"
+        },
+        "pageSize": {
+          "type": "number"
+        }
+      }
+    },
+    "Responce": {
+      "title": "Responce",
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "email": {
+          "type": "string"
+        },
+        "full_name": {
+          "type": "string"
+        },
+        "session_id": {
+          "type": "string"
+        }
+      }
+    },
+    "CommonResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "SigninRequest": {
+      "title": "SigninRequest",
+      "example": {
+        "email": "ghazanfar7@gmail.com",
+        "password": "ghazanfar",
+        "device_token": ""
+      },
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "device_token": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "email",
+        "password",
+        "device_token"
+      ]
+    },
+    "SigninResponse": {
+      "title": "SigninResponse",
+      "example": {
+        "status": false,
+        "message": "Email not registered",
+        "errors": [
+          {
+            "message": "No data exists in the database."
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      },
+      "required": [
+        "status",
+        "message",
+        "errors"
+      ]
+    },
+    "GetProfileResponse": {
+      "title": "GetProfileResponse",
+      "example": {
+        "status": true,
+        "message": "Operation successfully performed!",
+        "responce": {
+          "id": 3,
+          "email": "naeem@gmail.com",
+          "password": "$2b$10$R1ARiuobxmLAVAFDEiee3ubl1Rhuteh6cLarFsKmmk2rJ0Tz5apQu",
+          "full_name": "M. Naeem",
+          "session_id": "3zCzpNRa3bG2vnVswuOLv0XprrSX9gQh3",
+          "created_at": "2018-07-16T18:50:30.494Z",
+          "login_type": null,
+          "first_name": null,
+          "last_name": null,
+          "image_path": null,
+          "social_id": null,
+          "social_provider_name": null,
+          "job_title": null,
+          "about": null,
+          "interests": null,
+          "school": null,
+          "worked_at": null,
+          "lives_in": null,
+          "contact_number": null,
+          "facebook_profile": null,
+          "linkedin_profile": null,
+          "website": null,
+          "headline": null,
+          "google_profile": null,
+          "resetpasswordtoken": null,
+          "last_reset_password_request_date": null,
+          "resetpassexpire": null,
+          "device_token": null,
+          "device_type": null,
+          "tagline": null,
+          "works_at": null,
+          "profile_images": null,
+          "register_type": "PERSONAL",
+          "is_deleted": false,
+          "deleted_at": null,
+          "terms_accepted": null,
+          "createdAt": "2018-07-16T18:50:30.486Z",
+          "updatedAt": "2018-07-16T18:50:30.505Z",
+          "unread_notification_count": {
+            "count": 0,
+            "rows": []
+          }
+        }
+      },
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "responce": {
+          "$ref": "#/definitions/Responce1"
+        }
+      },
+      "required": [
+        "status",
+        "message",
+        "responce"
+      ]
+    },
+    "Responce1": {
+      "title": "Responce1",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "full_name": {
+          "type": "string"
+        },
+        "session_id": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "login_type": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "image_path": {
+          "type": "string"
+        },
+        "social_id": {
+          "type": "string"
+        },
+        "social_provider_name": {
+          "type": "string"
+        },
+        "job_title": {
+          "type": "string"
+        },
+        "about": {
+          "type": "string"
+        },
+        "interests": {
+          "type": "string"
+        },
+        "school": {
+          "type": "string"
+        },
+        "worked_at": {
+          "type": "string"
+        },
+        "lives_in": {
+          "type": "string"
+        },
+        "contact_number": {
+          "type": "string"
+        },
+        "facebook_profile": {
+          "type": "string"
+        },
+        "linkedin_profile": {
+          "type": "string"
+        },
+        "website": {
+          "type": "string"
+        },
+        "headline": {
+          "type": "string"
+        },
+        "google_profile": {
+          "type": "string"
+        },
+        "resetpasswordtoken": {
+          "type": "string"
+        },
+        "last_reset_password_request_date": {
+          "type": "string"
+        },
+        "resetpassexpire": {
+          "type": "string"
+        },
+        "device_token": {
+          "type": "string"
+        },
+        "device_type": {
+          "type": "string"
+        },
+        "tagline": {
+          "type": "string"
+        },
+        "works_at": {
+          "type": "string"
+        },
+        "profile_images": {
+          "type": "string"
+        },
+        "register_type": {
+          "type": "string"
+        },
+        "is_deleted": {
+          "type": "boolean"
+        },
+        "deleted_at": {
+          "type": "string"
+        },
+        "terms_accepted": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        },
+        "unread_notification_count": {
+          "$ref": "#/definitions/UnreadNotificationCount"
+        }
+      },
+      "required": [
+        "id",
+        "email",
+        "password",
+        "full_name",
+        "session_id",
+        "created_at",
+        "register_type",
+        "is_deleted",
+        "updatedAt",
+        "unread_notification_count"
+      ]
+    },
+    "UnreadNotificationCount": {
+      "title": "UnreadNotificationCount",
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "count",
+        "rows"
+      ]
+    },
+    "UpdateProfileResponse": {
+      "title": "UpdateProfileResponse",
+      "example": {
+        "status": true,
+        "message": "Operation successfully performed!",
+        "responce": {
+          "id": 3,
+          "email": "naeem@gmail.com",
+          "password": "$2b$10$R1ARiuobxmLAVAFDEiee3ubl1Rhuteh6cLarFsKmmk2rJ0Tz5apQu",
+          "full_name": "M. Naeem",
+          "session_id": "Eovpb1HOhg8h3BsOkkDrjih254AQzKUw",
+          "created_at": "2018-07-16T18:50:30.494Z",
+          "login_type": null,
+          "first_name": "ghazanafar",
+          "last_name": "ali",
+          "image_path": null,
+          "social_id": null,
+          "social_provider_name": null,
+          "job_title": null,
+          "about": null,
+          "interests": null,
+          "school": null,
+          "worked_at": null,
+          "lives_in": null,
+          "contact_number": null,
+          "facebook_profile": null,
+          "linkedin_profile": null,
+          "website": null,
+          "headline": null,
+          "google_profile": null,
+          "resetpasswordtoken": null,
+          "last_reset_password_request_date": null,
+          "resetpassexpire": null,
+          "device_token": null,
+          "device_type": null,
+          "tagline": null,
+          "works_at": null,
+          "profile_images": null,
+          "register_type": "PERSONAL",
+          "is_deleted": false,
+          "deleted_at": null,
+          "terms_accepted": null,
+          "createdAt": "2018-07-16T18:50:30.486Z",
+          "updatedAt": "2018-07-16T20:05:44.206Z"
+        }
+      },
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "responce": {
+          "$ref": "#/definitions/Responce2"
+        }
+      },
+      "required": [
+        "status",
+        "message",
+        "responce"
+      ]
+    },
+    "Responce2": {
+      "title": "Responce2",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "full_name": {
+          "type": "string"
+        },
+        "session_id": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "login_type": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "image_path": {
+          "type": "string"
+        },
+        "social_id": {
+          "type": "string"
+        },
+        "social_provider_name": {
+          "type": "string"
+        },
+        "job_title": {
+          "type": "string"
+        },
+        "about": {
+          "type": "string"
+        },
+        "interests": {
+          "type": "string"
+        },
+        "school": {
+          "type": "string"
+        },
+        "worked_at": {
+          "type": "string"
+        },
+        "lives_in": {
+          "type": "string"
+        },
+        "contact_number": {
+          "type": "string"
+        },
+        "facebook_profile": {
+          "type": "string"
+        },
+        "linkedin_profile": {
+          "type": "string"
+        },
+        "website": {
+          "type": "string"
+        },
+        "headline": {
+          "type": "string"
+        },
+        "google_profile": {
+          "type": "string"
+        },
+        "resetpasswordtoken": {
+          "type": "string"
+        },
+        "last_reset_password_request_date": {
+          "type": "string"
+        },
+        "resetpassexpire": {
+          "type": "string"
+        },
+        "device_token": {
+          "type": "string"
+        },
+        "device_type": {
+          "type": "string"
+        },
+        "tagline": {
+          "type": "string"
+        },
+        "works_at": {
+          "type": "string"
+        },
+        "profile_images": {
+          "type": "string"
+        },
+        "register_type": {
+          "type": "string"
+        },
+        "is_deleted": {
+          "type": "boolean"
+        },
+        "deleted_at": {
+          "type": "string"
+        },
+        "terms_accepted": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "email",
+        "password",
+        "full_name",
+        "session_id",
+        "created_at",
+        "first_name",
+        "last_name",
+        "register_type",
+        "is_deleted",
+        "updatedAt"
+      ]
+    },
+    "DeleteUserResponse": {
+      "title": "DeleteUserResponse",
+      "example": {
+        "status": true,
+        "message": "Operation successfully performed!",
+        "responce": {}
+      },
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "responce": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "status",
+        "message",
+        "responce"
+      ]
+    },
+    "DeleteUserErrorResponse": {
+      "title": "DeleteUserErrorResponse",
+      "example": {
+        "status": false,
+        "message": "please provide session id",
+        "errors": []
+      },
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "status",
+        "message",
+        "errors"
+      ]
+    },
+    "SendforgetlinkRequest": {
+      "title": "SendforgetlinkRequest",
+      "example": {
+        "email": "ghazanfar.ali1395@gmail.com"
+      },
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "email"
+      ]
+    },
+    "SendforgetlinkResponse": {
+      "title": "SendforgetlinkResponse",
+      "example": {
+        "status": true,
+        "message": "Email sent successfully, please login to update password."
+      },
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "message"
+      ]
+    },
+    "University": {
+      "type": "object",
+      "properties": {
+        "university_id": {
+          "type": "number",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "university_email": {
+          "type": "string"
+        }
+      }
+    },
+    "Group": {
+      "type": "object",
+      "properties": {
+        "group_id": {
+          "type": "number",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "university_id": {
+          "type": "number"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "number",
+          "readOnly": true
+        },
+        "user_name": {
+          "type": "string"
+        },
+        "password": {
+          "type": "number"
+        },
+        "handler": {
+          "type": "string"
+        },
+        "full_name": {
+          "type": "string"
+        },
+        "class": {
+          "type": "string"
+        },
+        "major": {
+          "type": "string"
+        },
+        "university_id": {
+          "type": "number"
+        },
+        "nex_coins": {
+          "type": "number"
+        }
+      }
+    },
+    "Post": {
+      "type": "object",
+      "properties": {
+        "post_id": {
+          "type": "number",
+          "readOnly": true
+        },
+        "university_id": {
+          "type": "string"
+        },
+        "post_content": {
+          "type": "number"
+        },
+        "number_of_likes": {
+          "type": "number"
+        },
+        "number_of_comments": {
+          "type": "number"
+        },
+        "group_id": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}
