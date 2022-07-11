@@ -1,0 +1,73 @@
+console.log('<====================== TASK 1 =================>');
+
+const str = "Smart people learn from everything and everyone, average people from their experience, stupid people already, have all the answers"
+const splitStrArr = str.split(" ");
+
+let longestWordLength = 0;
+
+let longWord = '';
+let vowelCount = 0 ;
+
+for(var i = 0; i < splitStrArr.length; i++){
+
+  if(splitStrArr[i].includes(',')){
+    splitStrArr[i] = splitStrArr[i].replace(/,/g,'');
+  }
+ const vowelExistCount = splitStrArr[i].match(/[aeiou]/gi).length || 0;
+  if(splitStrArr[i].length >= longestWordLength && vowelExistCount > vowelCount)
+  {
+    vowelCount = vowelExistCount;
+    longestWordLength = splitStrArr[i].length;
+    longWord =  splitStrArr[i];
+   }
+}
+
+
+
+
+============================================================== TASK 2 =========================================
+
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript HTML DOM</h2>
+
+<div id="main">
+<p>Finding HTML Elements by Tag Name</p>
+<p>This example demonstrates the <b>getElementsByTagName</b> method.</p>
+</div>
+
+<p id="demo"></p>
+
+<script>
+const x = document.getElementById("main");
+const y = x.getElementsByTagName("p");
+
+document.getElementById("demo").innerHTML = 
+'The first paragraph (index 0) inside "main" is: ' + y[0].innerHTML;
+
+
+function myFunction() {
+  let x = document.getElementById("demo");
+  alert(x);
+  document.getElementById("demo").innerHTML = x;
+}
+
+</script>
+
+
+<button style="background-color: #008CBA; color: white; padding: 15px 32px; text-align: center;   text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+"  onclick="myFunction()" >Button 1</button>
+
+<button style="background-color: green; color: white; padding: 15px 32px; text-align: center;   text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+">Button 2</button>
+
+</body>
+</html>
+
